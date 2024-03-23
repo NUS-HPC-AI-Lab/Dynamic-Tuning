@@ -1,10 +1,12 @@
 # Dynamic-Tuning
 
-The official implementation of 🔥🔥🔥"[2024Arxiv Dynamic Tuning Towards Parameter and Inference Efficiency for ViT Adaptation](https://arxiv.org/abs/2403.11808)".
+The official implementation of "2024Arxiv Dynamic Tuning Towards Parameter and Inference Efficiency for ViT Adaptation".
 
 > Wangbo Zhao<sup>1</sup>, Jiasheng Tang<sup>2,3</sup>,  Yizeng Han<sup>4</sup>, Yibing Song<sup>2,3</sup>, Kai Wang<sup>1</sup>, Gao Huang<sup>4</sup>, Fan Wang<sup>2</sup>, Yang You<sup>1</sup>
+>
 > <sup>1</sup>[National University of Singapore](https://www.nus.edu.sg/), <sup>2</sup>[DAMO Academy, Alibaba Group](https://damo.alibaba.com/?language=zh), <sup>3</sup>Hupan Lab, <sup>4</sup>[Tsinghua University](https://www.tsinghua.edu.cn/)
-
+>
+>  [[Paper](https://arxiv.org/abs/2403.11808)
 
 ## Abstract
 Existing parameter-efficient fine-tuning (PEFT) methods have achieved significant success on vision transformers (ViTs) adaptation by improving parameter efficiency. However, the exploration of enhancing inference efficiency during adaptation remains underexplored. This limits the broader application of pre-trained ViT models, especially when the model is computationally extensive. In this paper, we propose Dynamic Tuning (DyT), a novel approach to improve both parameter and inference efficiency for ViT adaptation. Specifically, besides using the lightweight adapter modules, we propose a token dispatcher to distinguish informative tokens from less important ones, allowing the latter to dynamically skip the original block, thereby reducing the redundant computation during inference. Additionally, we explore multiple design variants to find the best practice of DyT. Finally, inspired by the mixture-of-experts (MoE) mechanism, we introduce an enhanced adapter to further boost the adaptation performance. We validate DyT across various tasks, including image/video recognition and semantic segmentation. For instance, DyT achieves comparable or even superior performance compared to existing PEFT methods while evoking only 71%-85% of their FLOPs on the VTAB-1K benchmark.
