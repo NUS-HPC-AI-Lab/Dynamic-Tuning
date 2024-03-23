@@ -20,9 +20,11 @@ Existing parameter-efficient fine-tuning (PEFT) methods have achieved significan
 - For VTAB-1K, we recommend to adopt the split provided by [SSF](https://github.com/dongzelian/SSF). You can directly download the VTAB-1K from their repo.
 - For other image datasets, they will be automatically downloaded when you first run our code.
 - For video datasets (K400 and SSv2), you can download them from [OpenDataLab](https://opendatalab.org.cn/OpenMMLab/Kinetics-400) or their offical websites.
+
 ## Installation
 ```
 pip install -r requirements.txt # install torch, timm, torchvision, etc.
+wget https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_patch16_224_in21k-e5005f0a.pth # download the ckpt from timm
 ```
 
 ## Fine-tuning
@@ -31,7 +33,6 @@ bash ./train_IN21K.sh  # training on complete datasets
 bash ./train_vtab.sh # training on vtab benchmark
 bash ./train_video.sh # training on video datasets
 ```
-
 
 
 ## Citation
