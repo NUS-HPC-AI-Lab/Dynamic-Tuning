@@ -11,7 +11,7 @@ The official implementation of "2024Arxiv Dynamic Tuning Towards Parameter and I
 ## Abstract
 Existing parameter-efficient fine-tuning (PEFT) methods have achieved significant success on vision transformers (ViTs) adaptation by improving parameter efficiency. However, the exploration of enhancing inference efficiency during adaptation remains underexplored. This limits the broader application of pre-trained ViT models, especially when the model is computationally extensive. In this paper, we propose Dynamic Tuning (DyT), a novel approach to improve both parameter and inference efficiency for ViT adaptation. Specifically, besides using the lightweight adapter modules, we propose a token dispatcher to distinguish informative tokens from less important ones, allowing the latter to dynamically skip the original block, thereby reducing the redundant computation during inference. Additionally, we explore multiple design variants to find the best practice of DyT. Finally, inspired by the mixture-of-experts (MoE) mechanism, we introduce an enhanced adapter to further boost the adaptation performance. We validate DyT across various tasks, including image/video recognition and semantic segmentation. For instance, DyT achieves comparable or even superior performance compared to existing PEFT methods while evoking only 71%-85% of their FLOPs on the VTAB-1K benchmark.
 <p align="center">
-<img src="https://github.com/NUS-HPC-AI-Lab/Dynamic-Tuning/assets/56866854/b957598b-1e22-438d-9fe0-4b1317501c61" width=100% height=55.2%
+<img src="https://github.com/NUS-HPC-AI-Lab/Dynamic-Tuning/assets/56866854/b957598b-1e22-438d-9fe0-4b1317501c61" width=80% height=45%
 class="center">
 
 ## 🛠 Dataset Prepare
