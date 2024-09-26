@@ -1,6 +1,6 @@
 # Dynamic-Tuning
 
-The official implementation of "2024Arxiv Dynamic Tuning Towards Parameter and Inference Efficiency for ViT Adaptation".
+The official implementation of "2024NeurIPS Dynamic Tuning Towards Parameter and Inference Efficiency for ViT Adaptation".
 
 > Wangbo Zhao<sup>1</sup>, Jiasheng Tang<sup>2,3</sup>,  Yizeng Han<sup>4</sup>, Yibing Song<sup>2,3</sup>, Kai Wang<sup>1</sup>, Gao Huang<sup>4</sup>, Fan Wang<sup>2</sup>, Yang You<sup>1</sup>
 >
