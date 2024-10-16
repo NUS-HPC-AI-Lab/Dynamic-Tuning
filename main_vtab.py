@@ -348,6 +348,6 @@ if __name__ == '__main__':
     args.pretrain_ckpts = CHECKPOINTS
 
     # these hyperparameters can be searched
-    args.scale=1e-3
-    args.lr = 0.1
+    args.scale=1
+    args.lr = 1e-3
     main(args)
