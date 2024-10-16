@@ -135,15 +135,13 @@ class Block(nn.Module):
                         adapter_scalar=tuning_config.ffn_adapter_scalar,
                         adapter_layernorm_option=tuning_config.ffn_adapter_layernorm_option,
                         )
-        if select:
-            self.mlp_token_select = TokenSelect(dim, num_sub_layer=1)
-        else:
-            self.token_select = None
+        self.mlp_token_select = TokenSelect(dim, num_sub_layer=1)
+
             
         self.count_flops = None
         
         
-    def forward(self, x):
+    def forward(self, x, complete_model=False):
         if self.count_flops:
             return self.forward_count_flops(x)
         
@@ -160,7 +158,7 @@ class Block(nn.Module):
         residual = x
         mlp_x = self.drop_path2(self.ls2(self.mlp(self.norm2(x))))
         
-        if sub_token_select is not None:
+        if (sub_token_select is not None) and not complete_model:
             mlp_x = sub_token_select * mlp_x
         x = residual + mlp_x + adapt_x
         
@@ -342,7 +340,7 @@ class VisionTransformer(nn.Module):
 
 
 
-    def forward_features(self, x):
+    def forward_features(self, x, complete_model=False):
         x = self.patch_embed(x)
         
         if self.cls_token is not None:
@@ -357,16 +355,22 @@ class VisionTransformer(nn.Module):
         token_select_list = []
         token_logits_list = []
         for i, blk in enumerate(self.blocks):
-            x, token_select = blk(x)
+            if not complete_model:
+                x, token_select = blk(x)
+            else:
+                x, token_select = blk(x, complete_model)
+                
             if (token_select["sub_token_select"] is not None) and (token_select["token_logits"] is not None):
                 token_select_list.append(token_select["sub_token_select"])
                 token_logits_list.append(token_select["token_logits"])
-  
+
         token_select = convert_list_to_tensor(token_select_list)[:, :, 1:, :] # remove cls token
         token_logits = convert_list_to_tensor(token_logits_list)
         
         x = self.norm(x)
         return x, dict(token_select=token_select, token_logits=token_logits)
+
+    
 
     def forward_head(self, x, pre_logits: bool = False):
         if self.global_pool:
@@ -375,8 +379,8 @@ class VisionTransformer(nn.Module):
         x = self.head_drop(x)
         return x if pre_logits else self.head(x)
 
-    def forward(self, x):
-        x, token_select = self.forward_features(x)
+    def forward(self, x, complete_model=False):
+        x, token_select = self.forward_features(x, complete_model)
         x = self.forward_head(x)
         return x, token_select
 

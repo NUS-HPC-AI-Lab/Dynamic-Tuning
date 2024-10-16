@@ -5,7 +5,7 @@ CLUSTER = os.environ.get('CLUSTER')
 
 if not CLUSTER:
     CHECKPOINTS = {
-        'VIT_BASE_IN21K': 'ckpt/jx_vit_base_patch16_224_in21k-e5005f0a.pth',
+        'VIT_BASE_IN21K': '/mnt/workspace/workgroup/zhaowangbo.zwb/research/dynamic_PEFT_ECCV2024/jx_vit_base_patch16_224_in21k-e5005f0a.pth',
     }
     DATASETS = {
         'cifar10': 'path/small_datasets',
@@ -36,11 +36,11 @@ if not CLUSTER:
 
 else: # for debug 
     CHECKPOINTS = {
-        'VIT_BASE_IN21K': 'ckpt/jx_vit_base_patch16_224_in21k-e5005f0a.pth',
+        'VIT_BASE_IN21K': '/mnt/workspace/workgroup/zhaowangbo.zwb/research/dynamic_PEFT_ECCV2024/jx_vit_base_patch16_224_in21k-e5005f0a.pth',
     }
     DATASETS = {
-        'cifar10': 'path/small_datasets',
-        'cifar100': 'path/small_datasets',
+        'cifar10': '/mnt/workspace/workgroup/zhaowangbo.zwb/datasets/dynamicPEFT',
+        'cifar100': '/mnt/workspace/workgroup/zhaowangbo.zwb/datasets/dynamicPEFT',
         'food101': 'path/small_datasets',
         'svhn': 'path/small_datasets',
         'flowers102': 'path/small_datasets',

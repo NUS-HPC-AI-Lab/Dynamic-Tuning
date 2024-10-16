@@ -228,7 +228,7 @@ class Block(nn.Module):
         self.count_flops = None
         
         
-    def forward(self, x):
+    def forward(self, x, complete_model=False):
         if self.count_flops:
             return self.forward_count_flops(x)
         
@@ -245,7 +245,7 @@ class Block(nn.Module):
         residual = x
         mlp_x = self.drop_path2(self.ls2(self.mlp(self.norm2(x))))
         
-        if sub_token_select is not None:
+        if (sub_token_select is not None) and not complete_model:
             mlp_x = sub_token_select * mlp_x
         x = residual + mlp_x + adapt_x
         
@@ -432,7 +432,7 @@ class VisionTransformer(nn.Module):
 
 
 
-    def forward_features(self, x):
+    def forward_features(self, x, complete_model=False):
         b, c, t, h, w = x.shape
         x = rearrange(x, "b c t h w -> (b t) c h w")
         x = self.patch_embed(x)
@@ -449,7 +449,10 @@ class VisionTransformer(nn.Module):
         token_select_list = []
         token_logits_list = []
         for i, blk in enumerate(self.blocks):
-            x, token_select = blk(x)
+            if not complete_model:
+                x, token_select = blk(x)
+            else:
+                x, token_select = blk(x, complete_model)
             if (token_select["sub_token_select"] is not None) and (token_select["token_logits"] is not None):
                 token_select_list.append(token_select["sub_token_select"])
                 token_logits_list.append(token_select["token_logits"])
@@ -462,9 +465,9 @@ class VisionTransformer(nn.Module):
 
 
 
-    def forward(self, x):
+    def forward(self, x, complete_model=False):
         b, c, t, h, w = x.shape
-        x, token_select = self.forward_features(x)
+        x, token_select = self.forward_features(x, complete_model)
         
         
         # if self.global_pool:

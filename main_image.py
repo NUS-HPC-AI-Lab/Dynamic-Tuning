@@ -211,6 +211,8 @@ def main(args):
     
     if os.path.basename(args.finetune).startswith('VIT_BASE_IN21K'):
         model = vit_base_patch16_224_in21k(num_classes=args.nb_classes,  drop_path_rate=args.drop_path, tuning_config=tuning_config, select_config=select_config)
+    else:
+        raise KeyError(f"Unrecognized model: {os.path.basename(args.finetune)}")
         
     args.tuning_config = tuning_config
 
@@ -237,14 +239,10 @@ def main(args):
                 logger.info(f"Removing key {k} from pretrained checkpoint")
                 del checkpoint_model[k]
 
-        # interpolate position embedding
-        # interpolate_pos_embed(model, checkpoint_model)
-
-        # load pre-trained model
         msg = model.load_state_dict(checkpoint_model, strict=False)
         logger.info(msg)
 
-        # manually initialize fc layer: following MoCo v3
+
         if not args.eval:
             trunc_normal_(model.head.weight, std=0.01)
 

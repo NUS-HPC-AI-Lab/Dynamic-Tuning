@@ -347,7 +347,7 @@ if __name__ == '__main__':
     args.data_path = DATASETS
     args.pretrain_ckpts = CHECKPOINTS
 
-
+    # these hyperparameters can be searched
     args.scale=1e-3
     args.lr = 0.1
     main(args)

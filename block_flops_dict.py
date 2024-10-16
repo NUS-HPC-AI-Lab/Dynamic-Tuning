@@ -34,10 +34,10 @@ def get_block_flops(args):
 
 
     from models.vision_transformer_IN21K import Block
-    one_block = Block(dim=768, num_heads=12, mlp_ratio=4.0, qkv_bias=True, tuning_config=args.tuning_config, select=True)
+    one_block = Block(dim=768, num_heads=12, mlp_ratio=4.0, qkv_bias=True, tuning_config=args.tuning_config, select=True).cuda()
         
 
-    inputs = torch.rand((1, 197, 768))
+    inputs = torch.rand((1, 197, 768)).cuda()
     num_tokens = 197
 
     flops_dict = torch.zeros(num_tokens+1)
@@ -209,9 +209,9 @@ def vit_base_patch16_224_in21k(**kwargs):
 def get_base_flops(args):
 
     if os.path.basename(args.finetune).startswith('VIT_BASE_IN21K'):
-        model = vit_base_patch16_224_in21k(num_classes=args.nb_classes,  drop_path_rate=args.drop_path, tuning_config=args.tuning_config)
+        model = vit_base_patch16_224_in21k(num_classes=args.nb_classes,  drop_path_rate=args.drop_path, tuning_config=args.tuning_config).cuda()
         
-    inputs = torch.rand((1, 3, 224, 224))
+    inputs = torch.rand((1, 3, 224, 224)).cuda()
 
     flops = FlopCountAnalysis(model, inputs).total() / (1000**3)
 

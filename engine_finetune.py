@@ -8,7 +8,7 @@ import torch
 
 from timm.data import Mixup
 from util.metrics import mean_per_class_accuracy, accuracy
-
+from torch.nn import functional as F
 import misc as misc
 import util.lr_sched as lr_sched
 from block_flops_dict import batch_select_flops
@@ -46,9 +46,27 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
 
         with torch.cuda.amp.autocast():
             outputs, token_select = model(samples)
+            teacher_outputs, _ = model(samples, complete_model=True)
+            
+            
+            cls_kl_loss = F.kl_div(
+                F.log_softmax(outputs, dim=-1),
+                F.log_softmax(teacher_outputs.detach(), dim=-1),
+                reduction='batchmean',
+                log_target=True
+            )
+            
+            
+            teacher_loss = criterion.base_criterion(teacher_outputs, targets)
             outputs = dict(prediction=outputs, **token_select)
             loss, loss_dict = criterion(outputs, targets)
+            loss = loss + teacher_loss + cls_kl_loss
+            loss_dict["teacher_loss"] = teacher_loss
+            loss_dict['distillation_loss'] = cls_kl_loss
 
+            
+            
+            
         loss_value = loss.item()
         loss_dict = {k: v.item() for k, v in loss_dict.items()}
 
@@ -121,8 +139,30 @@ def train_video_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
 
         with torch.cuda.amp.autocast():
             outputs, token_select = model(samples)
+            teacher_outputs, _ = model(samples, complete_model=True)
+            cls_kl_loss = F.kl_div(
+                F.log_softmax(outputs, dim=-1),
+                F.log_softmax(teacher_outputs.detach(), dim=-1),
+                reduction='batchmean',
+                log_target=True
+            )
+            
+            
+            teacher_loss = criterion.base_criterion(teacher_outputs, targets)
             outputs = dict(prediction=outputs, **token_select)
             loss, loss_dict = criterion(outputs, targets)
+            loss = loss + teacher_loss + cls_kl_loss
+            loss_dict["teacher_loss"] = teacher_loss
+            loss_dict['distillation_loss'] = cls_kl_loss
+
+
+
+
+            # outputs = dict(prediction=outputs, **token_select)
+            # loss, loss_dict = criterion(outputs, targets)
+            
+            
+            
 
         loss_value = loss.item()
         loss_dict = {k: v.item() for k, v in loss_dict.items()}
@@ -221,18 +261,18 @@ def evaluate(data_loader, model, device, logger, base_flops, flops_dict, args):
         status["metric"] = class_mean_acc.item()
         
         
-    token_select = token_select.float()
-    assert "BASE" in args.finetune # block_num=12 only for ViT-b
-    batch_flops = batch_select_flops(token_select.shape[0], flops_dict=flops_dict, token_select=token_select, block_num=12, base_flops=base_flops)
-    logger.info("Average flops: {} GFlops".format(batch_flops.mean()))
-    logger.info("Rate=flops/vit-b flops: {}".format(batch_flops.mean() / 17.6)) # vit-b
+    # token_select = token_select.float()
+    # assert "BASE" in args.finetune # block_num=12 only for ViT-b
+    # batch_flops = batch_select_flops(token_select.shape[0], flops_dict=flops_dict, token_select=token_select, block_num=12, base_flops=base_flops)
+    # logger.info("Average flops: {} GFlops".format(batch_flops.mean()))
+    # logger.info("Rate=flops/vit-b flops: {}".format(batch_flops.mean() / 17.6)) # vit-b
     
     
     
-    logger.info("Select rate in different layers:")
-    for layer in range(0, token_select.shape[1]): # [n, 12, 196, 1]
-        logger.info(" {}% tokens selected in layer {}".format(token_select[:, layer, :, :].mean(), layer))
-    logger.info("{}% tokens selected overall".format(token_select.mean()))
+    # logger.info("Select rate in different layers:")
+    # for layer in range(0, token_select.shape[1]): # [n, 12, 196, 1]
+    #     logger.info(" {}% tokens selected in layer {}".format(token_select[:, layer, :, :].mean(), layer))
+    # logger.info("{}% tokens selected overall".format(token_select.mean()))
         
         
 
