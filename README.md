@@ -10,7 +10,7 @@ The official implementation of "2024NeurIPS Dynamic Tuning Towards Parameter and
 
 
 ## News 🚀🚀🚀
-
+- `2024.10.16`: We update the code: add a distillation technique (our paper in NeurIPS 2024 verision), support actually efficient inference, support semantic segmentation.
 - `2024.09.26`: DyT is accepted by NeurIPS 2024. We will update the code and paper soon.
 - `2024.03.23`: The code is released.
 
