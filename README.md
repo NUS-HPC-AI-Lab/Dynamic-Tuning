@@ -40,7 +40,7 @@ bash ./train_video.sh # training on video datasets
 
 ## ⚙️ Measure Inference Speed
 ```
-measure_speed.sh
+bash ./measure_speed.sh
 ```
 
 ## Citation
