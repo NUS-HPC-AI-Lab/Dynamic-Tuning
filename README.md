@@ -46,13 +46,11 @@ bash ./measure_speed.sh
 ## Citation
 If you found our work useful, please consider citing us.
 ```
-@misc{zhao2024dynamic,
-      title={Dynamic Tuning Towards Parameter and Inference Efficiency for ViT Adaptation}, 
-      author={Wangbo Zhao and Jiasheng Tang and Yizeng Han and Yibing Song and Kai Wang and Gao Huang and Fan Wang and Yang You},
-      year={2024},
-      eprint={2403.11808},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@article{zhao2024dynamic,
+  title={Dynamic tuning towards parameter and inference efficiency for vit adaptation},
+  author={Zhao, Wangbo and Tang, Jiasheng and Han, Yizeng and Song, Yibing and Wang, Kai and Huang, Gao and Wang, Fan and You, Yang},
+  journal={arXiv preprint arXiv:2403.11808},
+  year={2024}
 }
 ```
 
