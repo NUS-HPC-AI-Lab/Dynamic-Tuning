@@ -4,7 +4,7 @@
 
 <p align="center">
   <picture>
-    <img width="55%" alt="Dynamic-Tuning" src="./logo.png">
+    <img width="20%" alt="Dynamic-Tuning" src="./logo.png">
   </picture>
 </p>
 
