@@ -1,4 +1,4 @@
-# Dynamic-Tuning
+# <center>Dynamic-Tuning</center>
 
 The official implementation of "2024NeurIPS Dynamic Tuning Towards Parameter and Inference Efficiency for ViT Adaptation".
 
