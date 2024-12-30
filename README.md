@@ -1,8 +1,12 @@
 <h1 align="center"> <p>Dynamic-Tuning</p></h1>
 
-<img width="55%" alt="Dynamic-Tuning" src="./logo.png">
 
 
+<p align="center">
+  <picture>
+    <img width="55%" alt="Dynamic-Tuning" src="./logo.png">
+  </picture>
+</p>
 
 
 The official implementation of "2024NeurIPS Dynamic Tuning Towards Parameter and Inference Efficiency for ViT Adaptation".
