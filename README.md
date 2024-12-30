@@ -1,7 +1,7 @@
 <h1 align="center"> <p>Dynamic-Tuning</p></h1>
 <p align="center">
   <picture>
-    <img alt="Dynamic-Tuning" src="static/logo.png"%>
+    <img alt="Dynamic-Tuning" src="./logo.png"%>
   </picture>
 </p>
 
